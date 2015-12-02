@@ -13,15 +13,12 @@ mybot.on("message", function(message){
 	var DoTheMagic = "Yes!";
 	if(message.content.indexOf("ding") >= 0) {
 		mybot.reply(message, "dong");
-	} else if (message.content.lastIndexOf('/') === 0) {
+	} else if (message.content.charAt(0) == '/') {
 		console.log(command);
 		switch(command) {
 		case "/help":
 			var arg = "ew";
 			mybot.sendMessage(message.channel, "Sorry, but I don't have the time or the crayons to explain to you. ");
-		case "/fixtable":
-			var arg = "fixtable";
-			mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
 		break;
 		case "/pussy":
 		case "/cat":
@@ -63,11 +60,14 @@ mybot.on("message", function(message){
 
 				};
 			});
-		} else if (DoTheMagic == "Nu~") {
-			console.log("potato");
+		} else if (DoTheMagic == 'Nu~') {
+			console.log("Potato");
 			mybot.sendMessage(message.channel, "Invalid Parameter.  /help for list of arguments");
 		}
-	} else if(message.content.indexOf("121398650738835458") >= 0) {
+	} else if (message.content.includes("(╯°□°）╯︵ ┻━┻")) {
+		console.log("Fix Table");
+		mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+	} else if(message.content.includes("121398650738835458")) {
 		Cleverbot.prepare(function(){
 			console.log(message.content);
 			cleverbot.write(message.content, function (response) {
