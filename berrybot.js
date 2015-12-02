@@ -1,4 +1,3 @@
-
 var Discord = require("discord.js");
 var mybot = new Discord.Client();
 var request = require("request");
@@ -14,11 +13,12 @@ mybot.on("message", function(message){
 	if(message.content.indexOf("ding") >= 0) {
 		mybot.reply(message, "dong");
 	} else if (message.content.charAt(0) == '/') {
+		mybot.startTyping(message.channel);
 		console.log(command);
 		switch(command) {
 		case "/help":
 			var arg = "ew";
-			mybot.sendMessage(message.channel, "Sorry, but I don't have the time or the crayons to explain to you. ");
+			mybot.reply(message, "Sorry, but I don't have the time or the crayons to explain to you. ");
 		break;
 		case "/pussy":
 		case "/cat":
@@ -49,30 +49,32 @@ mybot.on("message", function(message){
 					var result = JSON.parse(body);
 					console.log(result);
 					if (command == "/pussy" || command == "/cat" || command == "/kitty") {
-						mybot.sendMessage(message.channel, result.file);
+						mybot.reply(message, result.file);
 					} else if (command == "/e621" || command == "/yandere" || command == "/konachan") {
-						mybot.sendMessage(message.channel, result[0].file_url + " Score " + result[0].score);
+						mybot.reply(message, result[0].file_url + " Score " + result[0].score);
 					} else if (command == "/insult") {
-						mybot.sendMessage(message.channel, result.insult);
+						mybot.reply(message, result.insult);
 					} else if (command == "/joke") {
-						mybot.sendMessage(message.channel, result.joke);
+						mybot.reply(message, result.joke);
 					}
-
 				};
 			});
 		} else if (DoTheMagic == 'Nu~') {
 			console.log("Potato");
-			mybot.sendMessage(message.channel, "Invalid Parameter.  /help for list of arguments");
+			mybot.reply(message, "Invalid Parameter.  /help for list of arguments");
 		}
+		mybot.stopTyping(message.channel);
 	} else if (message.content.includes("(╯°□°）╯︵ ┻━┻")) {
 		console.log("Fix Table");
 		mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
 	} else if(message.content.includes("121398650738835458")) {
+		mybot.startTyping(message.channel);
 		Cleverbot.prepare(function(){
 			console.log(message.content);
 			cleverbot.write(message.content, function (response) {
 				console.log(response.message);
 				mybot.reply(message, response.message, true);
+				mybot.stopTyping(message.channel);
 			});
 		});
 	}
