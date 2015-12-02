@@ -10,15 +10,18 @@ mybot.login(auth.email, auth.pass);
 mybot.on("message", function(message){
 	var command = message.content.toLowerCase();
 	var DoTheMagic = "Yes!";
+
 	if(message.content.indexOf("ding") >= 0) {
 		mybot.reply(message, "dong");
+
 	} else if (message.content.charAt(0) == '/') {
 		mybot.startTyping(message.channel);
 		console.log(command);
+
 		switch(command) {
 		case "/help":
 			var arg = "ew";
-			mybot.reply(message, "Sorry, but I don't have the time or the crayons to explain to you. ");
+			mybot.reply(message, "https://github.com/Kerryliu/berrybot");
 		break;
 		case "/pussy":
 		case "/cat":
@@ -43,6 +46,7 @@ mybot.on("message", function(message){
 		default:
 			DoTheMagic = "Nu~";
 		}
+
 		if (DoTheMagic == "Yes!") {
 			request(arg, function(error, response, body) {
 				if (!error && response.statusCode == 200) {
@@ -59,15 +63,22 @@ mybot.on("message", function(message){
 					}
 				};
 			});
+
 		} else if (DoTheMagic == 'Nu~') {
 			console.log("Potato");
 			mybot.reply(message, "Invalid Parameter.  /help for list of arguments");
 		}
 		mybot.stopTyping(message.channel);
+
 	} else if (message.content.includes("(╯°□°）╯︵ ┻━┻")) {
 		console.log("Fix Table");
 		mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
-	} else if(message.content.includes("121398650738835458")) {
+
+	} else if (message.content.search(/fuck|hell|shit|damn|bitch|ass|cunt/) >= 0) {
+		console.log("What a terribly awful thing to say.");
+		mybot.sendMessage(message.channel, "Watch your language now.");
+
+	} else if (message.content.includes("121398650738835458")) {
 		mybot.startTyping(message.channel);
 		Cleverbot.prepare(function(){
 			console.log(message.content);
