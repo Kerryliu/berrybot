@@ -57,6 +57,8 @@ mybot.on("message", function(message){
 			default:
 				if (message == "(╯°□°）╯︵ ┻━┻") {
 					mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+				} else if (message == "STOP IT YOU FOOL") {
+					mybot.sendMessage(message.channel, "I DO WHAT I WANT");
 				} else if(command.substr(0,3) == "ayy") {
 					mybot.reply(message, "lmao");
 				} else if (command.substr(0,3) == "and") {
