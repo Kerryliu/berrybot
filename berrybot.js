@@ -55,7 +55,7 @@ mybot.on("message", function(message){
 				mybot.reply(message, "pong");
 				break;
 			default:
-				if (command.include("(╯°□°）╯︵ ┻━┻") {
+				if (command.include("(╯°□°）╯︵ ┻━┻")) {
 					mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
 				} else if(command.substr(0,3) == "ayy") {
 					mybot.reply(message, "lmao");
