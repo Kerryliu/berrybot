@@ -55,7 +55,7 @@ mybot.on("message", function(message){
 				mybot.reply(message, "pong");
 				break;
 			case "(╯°□°）╯︵ ┻━┻":
-				mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+				mybot.reply(message, "┬──┬◡ﾉ(° -°ﾉ) ");
 				break;
 			default:
 				if(command.substr(0,3) == "ayy") {
