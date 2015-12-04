@@ -54,11 +54,10 @@ mybot.on("message", function(message){
 			case "ping":
 				mybot.reply(message, "pong");
 				break;
-			case "(╯°□°）╯︵ ┻━┻":
-				mybot.reply(message, "┬──┬◡ﾉ(° -°ﾉ) ");
-				break;
 			default:
-				if(command.substr(0,3) == "ayy") {
+				if (command.include("(╯°□°）╯︵ ┻━┻") {
+					mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+				} else if(command.substr(0,3) == "ayy") {
 					mybot.reply(message, "lmao");
 				} else if (command.substr(0,3) == "and") {
 					counter++;
