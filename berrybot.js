@@ -5,6 +5,7 @@ var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
 var auth = require("./auth.json");
 
+//For my axe
 var counter = 0;
 
 cleverbot = new Cleverbot;
@@ -16,6 +17,7 @@ mybot.on("message", function(message){
 	var words = potato.split(' ');
 	var command = words[0];
 	var args = message.content.substr(message.content.indexOf(" ") +1);
+
 		switch(command) {
 			case "/help":
 				mybot.reply(message, "https://github.com/Kerryliu/berrybot");
@@ -109,6 +111,11 @@ mybot.on("message", function(message){
 							mybot.stopTyping(message.channel);
 						});
 					});
+				} else { //I need a less retarded way of keeping track..
+					counter--;
+					if(counter < 0) {
+						counter = 0;
+					}
 				}
 				break;
 		}
