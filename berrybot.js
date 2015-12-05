@@ -4,6 +4,7 @@ var request = require("request");
 var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
 var auth = require("./auth.json");
+var docs = require("./docs.json");
 
 //For my axe
 var counter = 0;
@@ -13,10 +14,11 @@ cleverbot = new Cleverbot;
 mybot.login(auth.email, auth.pass);
 
 mybot.on("message", function(message){
+	if(message.content.charAt(0) == '/') {
 	var potato = message.content.toLowerCase();
 	var words = potato.split(' ');
 	var command = words[0];
-	var args = message.content.substr(message.content.indexOf(" ") +1);
+	var args = message.content.substr(message.content.indexOf(" ") + 1);
 
 		switch(command) {
 			case "/help":
@@ -48,13 +50,6 @@ mybot.on("message", function(message){
 					}
 				});
 				break;
-			case "/id":
-				try {
-					mybot.reply(message, "\nName: " + mybot.servers[1].channels[args].name + "\nType: " + mybot.servers[1].channels[args].type + "\nID: " + mybot.servers[1].channels[args].id);
-				} catch (err) {
-					mybot.reply(message, "Invalid Channel Number ");
-				}
-				break;
 			case "/join":
 					var channel = mybot.channels.get("name", args);
 					mybot.joinVoiceChannel(channel, function(){
@@ -71,7 +66,7 @@ mybot.on("message", function(message){
 					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playFile("./a.mp3");
 				} catch (err) {
-					mybot.reply(message,  "Put me in a voice channel first :'(");
+					mybot.reply(message, "Put me in a voice channel first :'(");
 				}
 				break;
 			case "/singvid":
@@ -79,44 +74,50 @@ mybot.on("message", function(message){
 					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playRawStream(ytdl(args));
 				} catch (err) {
-					mybot.reply(message, "Well fuck..");
+					if (err instanceof TypeError){
+						mybot.reply(message, "Put me in a voice channel first :'(");
+					} else {
+						mybot.reply(message, "Missing or invalid video URL.");
+					}
 				}
 				break;
 			case "/shutup":
-					mybot.voiceConnection.stopPlaying();
-				break;
-			case "ping":
-				mybot.reply(message, "pong");
+				mybot.voiceConnection.stopPlaying();
 				break;
 			default:
-				if (message == "(╯°□°）╯︵ ┻━┻") {
-					mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
-				} else if (message == "STOP IT YOU FOOL") {
-					mybot.sendMessage(message.channel, "I DO WHAT I WANT");
-				} else if(command.substr(0,3) == "ayy") {
-					mybot.reply(message, "lmao");
-				} else if (command.substr(0,3) == "and") {
-					counter++;
-					console.log(counter);
-					if(counter > 1) {
-						mybot.reply(message, "And my axe!");
-						counter = 0;
-					}
-				} else if (command.includes("121398650738835458")) {
-					mybot.startTyping(message.channel);
-					Cleverbot.prepare(function(){
-						cleverbot.write(message.content, function (response) {
-							console.log(response.message);
-							mybot.reply(message, response.message, true);
-							mybot.stopTyping(message.channel);
-						});
-					});
-				} else { //I need a less retarded way of keeping track..
-					counter--;
-					if(counter < 0) {
-						counter = 0;
-					}
-				}
+				mybot.reply(message, "Invalid command.");
 				break;
 		}
+
+	} else {
+		if(message.content == "ping") {
+			mybot.reply(message, "pong");
+		} else {
+			if (message.content == "(╯°□°）╯︵ ┻━┻") {
+				mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+			} else if(message.content.substr(0,3) == "ayy") {
+				mybot.reply(message, "lmao");
+			} else if (message.content.substr(0,3) == "and") {
+				counter++;
+				if(counter > 1) {
+					mybot.reply(message, "And my axe!");
+					counter = 0;
+				}
+			} else if (message.content.includes("121398650738835458")) {
+				mybot.startTyping(message.channel);
+				Cleverbot.prepare(function(){
+					cleverbot.write(message.content, function (response) {
+						console.log(response.message);
+						mybot.reply(message, response.message, true);
+						mybot.stopTyping(message.channel);
+					});
+				});
+			} else { //I need a less retarded way of keeping track..
+				counter--;
+				if(counter < 0) {
+					counter = 0;
+				}
+			}
+		}
+	}
 });
