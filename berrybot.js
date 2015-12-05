@@ -2,7 +2,6 @@ var Discord = require("discord.js");
 var mybot = new Discord.Client();
 var request = require("request");
 var Cleverbot = require("cleverbot-node");
-var fs = require("fs");
 var ytdl = require("ytdl-core");
 var auth = require("./auth.json");
 
@@ -67,6 +66,7 @@ mybot.on("message", function(message){
 				break;
 			case "/testvoice":
 				try {
+					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playFile("./a.mp3");
 				} catch (err) {
 					mybot.reply(message,  "Put me in a voice channel first :'(");
@@ -74,6 +74,7 @@ mybot.on("message", function(message){
 				break;
 			case "/singvid":
 				try {
+					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playRawStream(ytdl(args));
 				} catch (err) {
 					mybot.reply(message, "Well fuck..");
