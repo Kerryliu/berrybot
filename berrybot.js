@@ -66,7 +66,6 @@ mybot.on("message", function(message){
 				break;
 			case "/testvoice":
 				try {
-					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playFile("./a.mp3");
 				} catch (err) {
 					mybot.reply(message,  "Put me in a voice channel first :'(");
@@ -74,7 +73,6 @@ mybot.on("message", function(message){
 				break;
 			case "/singvid":
 				try {
-					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playRawStream(ytdl(args));
 				} catch (err) {
 					mybot.reply(message, "Well fuck..");
