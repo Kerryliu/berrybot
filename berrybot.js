@@ -14,7 +14,7 @@ mybot.on("message", function(message){
 	var potato = message.content.toLowerCase();
 	var words = potato.split(' ');
 	var command = words[0];
-	var args = potato.substr(orignal.indexOf(" ") +1);
+	var args = message.content.substr(message.content.indexOf(" ") +1);
 		switch(command) {
 			case "/help":
 				mybot.reply(message, "https://github.com/Kerryliu/berrybot");
@@ -52,13 +52,16 @@ mybot.on("message", function(message){
 					mybot.reply(message, "Invalid Channel Number ");
 				}
 				break;
-			case "/Join":
-				try {
-					mybot.getAll("name", args);
-					mybot.reply(message, mybot.getAll("name", args));
-				} catch (err) {
-					mybot.reply(message, "Enter a valid channel name. ");
-				}
+			case "/join":
+					var channel = mybot.channels.get("name", args);
+					mybot.joinVoiceChannel(channel, function(){
+						mybot.reply(message, "Joining: " + channel);
+					});
+				break;
+			case "/goaway":
+				mybot.leaveVoiceChannel(function() {
+					mybot.reply(message, "Bye... :(");
+				});
 				break;
 			case "ping":
 				mybot.reply(message, "pong");
