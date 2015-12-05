@@ -14,6 +14,7 @@ mybot.login(auth.email, auth.pass);
 
 mybot.on("message", function(message){
 	if(message.content.charAt(0) == '/') {
+	//Probably a better way to parse...
 	var potato = message.content.toLowerCase();
 	var words = potato.split(' ');
 	var command = words[0];
@@ -81,7 +82,11 @@ mybot.on("message", function(message){
 				}
 				break;
 			case "/shutup":
-				mybot.voiceConnection.stopPlaying();
+				try{
+					mybot.voiceConnection.stopPlaying();
+				} catch (err) {
+					mybot.reply(message, "I'm mute right now...");
+				}
 				break;
 			default:
 				mybot.reply(message, "Invalid command.");
