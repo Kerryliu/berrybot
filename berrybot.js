@@ -4,7 +4,6 @@ var request = require("request");
 var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
 var auth = require("./auth.json");
-var docs = require("./docs.json");
 
 //For my axe
 var counter = 0;
