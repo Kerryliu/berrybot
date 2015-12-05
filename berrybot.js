@@ -2,6 +2,8 @@ var Discord = require("discord.js");
 var mybot = new Discord.Client();
 var request = require("request");
 var Cleverbot = require("cleverbot-node");
+var fs = require("fs");
+var ytdl = require("ytdl-core");
 var auth = require("./auth.json");
 
 var counter = 0;
@@ -70,12 +72,15 @@ mybot.on("message", function(message){
 					mybot.reply(message,  "Put me in a voice channel first :'(");
 				}
 				break;
-			case "/shutup":
+			case "/singvid":
 				try {
-					mybot.voiceConnection.stopPlaying();
+					mybot.voiceConnection.playRawStream(ytdl(args));
 				} catch (err) {
-					mybot.reply(message, "I'm already mute");
+					mybot.reply(message, "Well fuck..");
 				}
+				break;
+			case "/shutup":
+					mybot.voiceConnection.stopPlaying();
 				break;
 			case "ping":
 				mybot.reply(message, "pong");
