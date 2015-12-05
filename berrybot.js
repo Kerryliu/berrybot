@@ -63,6 +63,13 @@ mybot.on("message", function(message){
 					mybot.reply(message, "Bye... :(");
 				});
 				break;
+			case "/test":
+				mybot.voiceConnection.playFile("./a.mp3").then(stream => {
+				stream.on("time", time => {
+					console.log("Time", time);
+				})
+			});
+				break;
 			case "ping":
 				mybot.reply(message, "pong");
 				break;
