@@ -82,6 +82,9 @@ mybot.on("message", function(message){
 							mybot.reply(message, "Something went wrong. ");
 						} else {
 							var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
+							if (args.substr(0,4) != "http") {
+								mybot.reply(message, url);
+							}
 							try {
 								mybot.voiceConnection.stopPlaying();
 								mybot.voiceConnection.playRawStream(ytdl(url));
