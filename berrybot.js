@@ -1,16 +1,20 @@
 var Discord = require("discord.js");
-var mybot = new Discord.Client();
 var request = require("request");
 var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
+var YoutubeNode = require("youtube-node");
+
 var auth = require("./auth.json");
 
 //For my axe
 var counter = 0;
 
-cleverbot = new Cleverbot;
+var cleverbot = new Cleverbot();
+var mybot = new Discord.Client();
+var youtubeNode = new YoutubeNode();
 
 mybot.login(auth.email, auth.pass);
+youtubeNode.setKey(auth.youtube);
 
 mybot.on("message", function(message){
 	if(message.content.charAt(0) == '/') {
@@ -61,6 +65,9 @@ mybot.on("message", function(message){
 					mybot.reply(message, "Bye... :(");
 				});
 				break;
+			case "/test":
+				mybot.reply(message, message.author.client.voiceConnection);
+				break;
 			case "/testvoice":
 				try {
 					mybot.voiceConnection.stopPlaying();
@@ -70,16 +77,23 @@ mybot.on("message", function(message){
 				}
 				break;
 			case "/singvid":
-				try {
-					mybot.voiceConnection.stopPlaying();
-					mybot.voiceConnection.playRawStream(ytdl(args));
-				} catch (err) {
-					if (err instanceof TypeError){
-						mybot.reply(message, "Put me in a voice channel first :'(");
-					} else {
-						mybot.reply(message, "Missing or invalid video URL.");
-					}
-				}
+					youtubeNode.search(args, 1, function(error, result) {
+						if (error) {
+							mybot.reply(message, "Something went wrong. ");
+						} else {
+							var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
+							try {
+								mybot.voiceConnection.stopPlaying();
+								mybot.voiceConnection.playRawStream(ytdl(url));
+							} catch (err) {
+								if (err instanceof TypeError){
+									mybot.reply(message, "Put me in a voice channel first :'(");
+								} else {
+									mybot.reply(message, "Missing or invalid video URL.");
+								}
+							}
+						}
+					});
 				break;
 			case "/shutup":
 				try{
