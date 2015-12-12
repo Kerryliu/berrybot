@@ -1,0 +1,21 @@
+{
+  "name": "berrybot",
+  "version": "1.0.0",
+  "description": "Discord Bot using discord.js",
+  "main": "berrybot.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kerryliu/berrybot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kerryliu/berrybot/issues"
+  },
+  "homepage": "https://github.com/Kerryliu/berrybot#readme"
+}
