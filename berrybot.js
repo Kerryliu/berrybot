@@ -124,7 +124,7 @@ mybot.on("message", function(message) {
 			mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
 		} else if(firstWord == "and") {
 			axeCounter++;
-			if(counter > 1) {
+			if(axeCounter > 1) {
 				mybot.reply(message, "And my axe!");
 				axeCounter = 0;
 			}
