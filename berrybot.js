@@ -118,7 +118,7 @@ mybot.on("message", function(message) {
 	}
 	//Automated functions:
 	else {
-		if(firstWord == "(╯°□°）╯︵ ┻━┻") {
+		if(firstWord.substr(0,7) == "(╯°□°）╯") {
 			mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
 		} else if(firstWord == "and") {
 			axeCounter++;
@@ -126,7 +126,7 @@ mybot.on("message", function(message) {
 				mybot.reply(message, "And my axe!");
 				axeCounter = 0;
 			}
-		} else if(firstWord.substr(0,3 == "ayy")) {
+		} else if(firstWord.substr(0,3) == "ayy") {
 			mybot.sendMessage(message.channel, "lmao");
 		} else if(message.content.includes("121398650738835458")) { //Uses unique username id for bot
 			mybot.startTyping(message.channel);
