@@ -107,6 +107,8 @@ mybot.on("message", function(message) {
 	var firstWord = words[0];
 	var args = message.content.substr(message.content.indexOf(" ") + 1);
 
+	//console.log(message.author.username + ": " + message.content);
+
 	//Commands:
 	if(firstWord.charAt(0) == '/') {
 		var command = firstWord.slice(1);
@@ -127,7 +129,9 @@ mybot.on("message", function(message) {
 				axeCounter = 0;
 			}
 		} else if(firstWord.substr(0,3) == "ayy") {
-			mybot.sendMessage(message.channel, "lmao");
+			mybot.reply(message, "lmao");
+		} else if (message.content.includes(":(")) {
+			mybot.reply(message, "Don't be sad, have a smiley face: :)");
 		} else if(message.content.includes("121398650738835458")) { //Uses unique username id for bot
 			mybot.startTyping(message.channel);
 			Cleverbot.prepare(function(){
