@@ -3,6 +3,7 @@ var request = require("request");
 var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
 var YoutubeNode = require("youtube-node");
+var wolfram = require("wolfram").createClient("QQETG9-RQUXX96L2U");
 
 var auth = require("./auth.json");
 
@@ -45,6 +46,21 @@ var userCommands = {
 			}
 		});
 	}, 
+	"query": function(bot, msg, args) {
+		mybot.startTyping(msg.channel);
+		wolfram.query(args, function(err, result) {
+			if(err) {
+				bot.reply(msg, "Oh shit... A wild error appeared!");
+			} else {
+				for(i = 0; i < result.length; i++) {
+					if("image" in result[i].subpods[0]) {
+						bot.sendMessage(msg.channel, result[i].title + ": " + result[i].subpods[0].image + ".gif");
+					}
+				}
+			}
+			mybot.stopTyping(msg.channel);
+		});
+	},
 	"join": function(bot, msg, args) {
 		var channel = mybot.channels.get("name", args);
 		mybot.joinVoiceChannel(channel, function(){
