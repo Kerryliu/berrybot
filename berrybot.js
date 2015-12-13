@@ -106,7 +106,7 @@ var userCommands = {
 	},
 	"goaway": function(bot, msg) {
 		mybot.leaveVoiceChannel(function() {
-			mybot.reply(message, "Bye... :(");
+			mybot.reply(msg, "Bye... :(");
 		});
 	}
 };
