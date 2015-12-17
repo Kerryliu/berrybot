@@ -72,7 +72,7 @@ var userCommands = {
 			mybot.voiceConnection.stopPlaying();
 			mybot.voiceConnection.playFile("./a.mp3");
 		} catch (err) {
-			mybot.reply(msg, "Put me in a voice channel first :'(");
+			mybot.reply(msg, "Put me in a voice channel first.");
 		}
 	},
 	"singvid": function(bot, msg, args) {
@@ -106,7 +106,7 @@ var userCommands = {
 	},
 	"goaway": function(bot, msg) {
 		mybot.leaveVoiceChannel(function() {
-			mybot.reply(msg, "Bye... :(");
+			mybot.reply(msg, "Bye...");
 		});
 	}
 };
