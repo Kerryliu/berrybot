@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "Discord Bot using discord.js",
   "main": "berrybot.js",
-  "dependencies": {},
+  "dependencies": {
+    "cleverbot-node": "^0.2.1",
+    "discord.js": "^5.3.1",
+    "request": "^2.67.0",
+    "ytdl-core": "^0.7.9"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,10 +17,15 @@
     "type": "git",
     "url": "git+https://github.com/Kerryliu/berrybot.git"
   },
-  "author": "",
+  "author": "Kerry Liu",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Kerryliu/berrybot/issues"
   },
-  "homepage": "https://github.com/Kerryliu/berrybot#readme"
+  "homepage": "https://github.com/Kerryliu/berrybot#readme",
+  "keywords": [
+    "discord",
+    "bot",
+    "berrybot"
+  ]
 }

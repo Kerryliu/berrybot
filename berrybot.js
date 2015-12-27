@@ -3,7 +3,6 @@ var request = require("request");
 var Cleverbot = require("cleverbot-node");
 var ytdl = require("ytdl-core");
 var YoutubeNode = require("youtube-node");
-var wolfram = require("wolfram").createClient("QQETG9-RQUXX96L2U");
 
 var auth = require("./auth.json");
 
@@ -13,6 +12,11 @@ var youtubeNode = new YoutubeNode();
 
 //Flags and Counters:
 var axeCounter = 0;
+var botID = "121398650738835458";
+
+//Logins:
+mybot.login(auth.email, auth.pass);
+youtubeNode.setKey(auth.youtube);
 
 //Commands:
 var userCommands = {
@@ -46,21 +50,6 @@ var userCommands = {
 			}
 		});
 	}, 
-	"query": function(bot, msg, args) {
-		mybot.startTyping(msg.channel);
-		wolfram.query(args, function(err, result) {
-			if(err) {
-				bot.reply(msg, "Oh shit... A wild error appeared!");
-			} else {
-				for(i = 0; i < result.length; i++) {
-					if("image" in result[i].subpods[0]) {
-						bot.sendMessage(msg.channel, result[i].title + ": " + result[i].subpods[0].image + ".gif");
-					}
-				}
-			}
-			mybot.stopTyping(msg.channel);
-		});
-	},
 	"join": function(bot, msg, args) {
 		var channel = mybot.channels.get("name", args);
 		mybot.joinVoiceChannel(channel, function(){
@@ -111,10 +100,6 @@ var userCommands = {
 	}
 };
 
-//Logins:
-mybot.login(auth.email, auth.pass);
-youtubeNode.setKey(auth.youtube);
-
 //Bot start:
 mybot.on("message", function(message) {
 	//Probably a better way to parse...
@@ -123,15 +108,13 @@ mybot.on("message", function(message) {
 	var firstWord = words[0];
 	var args = message.content.substr(message.content.indexOf(" ") + 1);
 
-	//console.log(message.author.username + ": " + message.content);
-
 	//Commands:
 	if(firstWord.charAt(0) == '/') {
 		var command = firstWord.slice(1);
 		try{
 			userCommands[command](mybot, message, args);
 		} catch (err) {
-			mybot.reply(message, "Invalid command");
+			console.log(err);
 		}
 	}
 	//Automated functions:
@@ -146,9 +129,7 @@ mybot.on("message", function(message) {
 			}
 		} else if(firstWord.substr(0,3) == "ayy") {
 			mybot.reply(message, "lmao");
-		} else if (message.content.includes(":(")) {
-			mybot.reply(message, "Don't be sad, have a smiley face: :)");
-		} else if(message.content.includes("121398650738835458")) { //Uses unique username id for bot
+		} else if(message.content.includes(botID)) { //Uses unique username id for bot
 			mybot.startTyping(message.channel);
 			Cleverbot.prepare(function(){
 				cleverbot.write(message.content, function (response) {
