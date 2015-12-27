@@ -13,3 +13,8 @@ A chat bot for the Disord app written in Javascript and Node.js using <a href="h
 
 #Automated functions:
 - Fixes tables
+
+#Installation: 
+- Install node.js
+- Run `npm install`
+- Finally run `node berrybot.js`
