@@ -57,8 +57,8 @@ var userCommands = {
 		});
 	},
 	"testvoice": function(bot, msg) {
+		mybot.voiceConnection.stopPlaying();
 		try {
-			mybot.voiceConnection.stopPlaying();
 			mybot.voiceConnection.playFile("./a.mp3");
 		} catch (err) {
 			mybot.reply(msg, "Put me in a voice channel first.");
@@ -73,8 +73,8 @@ var userCommands = {
 				if (args.substr(0,4) != "http") {
 					mybot.reply(msg, url);
 				}
+				mybot.voiceConnection.stopPlaying();
 				try {
-					mybot.voiceConnection.stopPlaying();
 					mybot.voiceConnection.playRawStream(ytdl(url));
 				} catch (err) {
 					if (err instanceof TypeError){
