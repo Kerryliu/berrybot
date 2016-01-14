@@ -50,6 +50,23 @@ var userCommands = {
 			}
 		});
 	}, 
+	"time": function(bot, msg) {
+		var d = new Date();
+		var hours = d.getHours();
+		var minutes = '';
+		if(d.getMinutes() > 45) {
+			minutes = "";
+			hours++;
+		} else if (d.getMinutes() < 45 && d.getMinutes() > 15) {
+			minutes = "30";
+		} else {
+			minutes = "";
+		} 
+		if (hours > 12) {
+			hours -= 12;
+		}
+		mybot.reply(msg, ":clock" + hours + minutes + ":");
+	},
 	"join": function(bot, msg, args) {
 		var channel = mybot.channels.get("name", args);
 		mybot.joinVoiceChannel(channel, function(){
