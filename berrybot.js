@@ -50,7 +50,7 @@ var userCommands = {
 			}
 		});
 	}, 
-	"time": function(bot, msg) {
+	"clock": function(bot, msg) {
 		var d = new Date();
 		var hours = d.getHours();
 		var minutes = '';
