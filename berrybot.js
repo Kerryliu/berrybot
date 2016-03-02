@@ -73,6 +73,12 @@ var userCommands = {
       mybot.reply(msg, "Joining: " + channel);
     });
   },
+  "comehere": function(bot, msg, args) {
+    var channel = msg.author.voiceChannel;
+    mybot.joinVoiceChannel(channel, function() {
+      mybot.reply(msg, "Joining: " + channel);
+    });
+  },
   "testvoice": function(bot, msg) {
     mybot.voiceConnection.stopPlaying();
     try {
