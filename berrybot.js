@@ -166,5 +166,16 @@ mybot.on("message", function(message) {
         axeCounter--;
       }
     }
-  }
+	}
+});
+
+process.on('uncaughtException', function(err) {
+	if (err.code == 'ECONNRESET') {
+		console.log('Got an ECONNRESET! This is *probably* not an error. Stacktrace:');
+		console.log(err.stack);
+	} else {
+		console.log(err);
+		console.log(err.stack);
+		process.exit(0);
+	}
 });
