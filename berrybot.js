@@ -80,34 +80,37 @@ var userCommands = {
     });
   },
   "testvoice": function(bot, msg) {
-    mybot.voiceConnection.stopPlaying();
     try {
+			mybot.voiceConnection.stopPlaying();
       mybot.voiceConnection.playFile("./a.mp3");
     } catch (err) {
       mybot.reply(msg, "Put me in a voice channel first.");
     }
   },
   "singvid": function(bot, msg, args) {
-    youtubeNode.search(args, 1, function(error, result) {
-      if (error) {
-        mybot.reply(msg, "Something went wrong. ");
-      } else {
-        var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
-        if (args.substr(0, 4) != "http") {
-          mybot.reply(msg, url);
-        }
-        mybot.voiceConnection.stopPlaying();
-        try {
-          mybot.voiceConnection.playRawStream(ytdl(url));
-        } catch (err) {
-          if (err instanceof TypeError) {
-            mybot.reply(msg, "Put me in a voice channel first :'(");
-          } else {
-            mybot.reply(msg, "Missing or invalid video URL.");
-          }
-        }
-      }
-    });
+		try {
+			mybot.voiceConnection.stopPlaying();
+			youtubeNode.search(args, 1, function(error, result) {
+				if (error) {
+					mybot.reply(msg, "Something went wrong. ");
+				} else if (typeof result.items[0] == "undefined") {
+					mybot.reply(msg, "Invalid URL or no search results")
+				} else {
+					var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
+					if (args.substr(0, 4) != "http") {
+						mybot.reply(msg, url);
+					}
+					mybot.voiceConnection.stopPlaying();
+					try {
+						mybot.voiceConnection.playRawStream(ytdl(url));
+					} catch (err) {
+						mybot.reply(msg, "Something went wrong. ")
+					}
+				}
+			});
+		} catch (err) {
+      mybot.reply(msg, "Put me in a voice channel first.");
+		}
   },
   "shutup": function(bot, msg) {
     try {
