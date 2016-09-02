@@ -88,42 +88,50 @@ var userCommands = {
     }
   },
   "airhorn": function(bot, msg) {
-    try {
-      mybot.voiceConnection.stopPlaying();
-      mybot.voiceConnection.playFile("./horn.mp3");
-		} catch (err) {
-			var channel = msg.author.voiceChannel;
-			mybot.joinVoiceChannel(channel, function() {
-				mybot.reply(msg, "Joining: " + channel);
-			});
-    }
-  },
-  "singvid": function(bot, msg, args) {
-		try {
-			mybot.voiceConnection.stopPlaying();
-			youtubeNode.search(args, 1, function(error, result) {
-				if (error) {
-					mybot.reply(msg, "Something went wrong. ");
-				} else if (typeof result.items[0] == "undefined") {
-					mybot.reply(msg, "Invalid URL or no search results")
-				} else {
-					var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
-					if (args.substr(0, 4) != "http") {
-						mybot.reply(msg, url);
+		var retry = false;
+		while(!retry) {
+			try {
+				mybot.voiceConnection.stopPlaying();
+				mybot.voiceConnection.playFile("./horn.mp3");
+			} catch (err) {
+				var channel = msg.author.voiceChannel;
+				mybot.joinVoiceChannel(channel, function() {
+					mybot.reply(msg, "Joining: " + channel);
+					retry = true;
+				});
+			}
+		}
+	},
+	"singvid": function(bot, msg, args) {
+		var retry = false;
+		while(!retry) {
+			try {
+				mybot.voiceConnection.stopPlaying();
+				youtubeNode.search(args, 1, function(error, result) {
+					if (error) {
+						mybot.reply(msg, "Something went wrong. ");
+					} else if (typeof result.items[0] == "undefined") {
+						mybot.reply(msg, "Invalid URL or no search results")
+					} else {
+						var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
+						if (args.substr(0, 4) != "http") {
+							mybot.reply(msg, url);
+						}
+						mybot.voiceConnection.stopPlaying();
+						try {
+							mybot.voiceConnection.playRawStream(ytdl(url, {filter : 'audioonly'}));
+						} catch (err) {
+							mybot.reply(msg, "Something went wrong. ")
+						}
 					}
-					mybot.voiceConnection.stopPlaying();
-					try {
-						mybot.voiceConnection.playRawStream(ytdl(url, {filter : 'audioonly'}));
-					} catch (err) {
-						mybot.reply(msg, "Something went wrong. ")
-					}
-				}
-			});
-		} catch (err) {
-			var channel = msg.author.voiceChannel;
-			mybot.joinVoiceChannel(channel, function() {
-				mybot.reply(msg, "Joining: " + channel);
-			});
+				});
+			} catch (err) {
+				var channel = msg.author.voiceChannel;
+				mybot.joinVoiceChannel(channel, function() {
+					mybot.reply(msg, "Joining: " + channel);
+				});
+				retry = true;
+			}
 		}
   },
   "shutup": function(bot, msg) {
