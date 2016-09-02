@@ -88,23 +88,24 @@ var userCommands = {
     }
   },
   "airhorn": function(bot, msg) {
-		var retry = false;
-		while(!retry) {
+		var retries = 0;
+		while(retries < 2) {
 			try {
 				mybot.voiceConnection.stopPlaying();
 				mybot.voiceConnection.playFile("./horn.mp3");
+				break;
 			} catch (err) {
 				var channel = msg.author.voiceChannel;
 				mybot.joinVoiceChannel(channel, function() {
 					mybot.reply(msg, "Joining: " + channel);
-					retry = true;
+					retries++;
 				});
 			}
 		}
 	},
 	"singvid": function(bot, msg, args) {
-		var retry = false;
-		while(!retry) {
+		var retries = 0;
+		while(retries < 2) {
 			try {
 				mybot.voiceConnection.stopPlaying();
 				youtubeNode.search(args, 1, function(error, result) {
@@ -125,12 +126,13 @@ var userCommands = {
 						}
 					}
 				});
+				break;
 			} catch (err) {
 				var channel = msg.author.voiceChannel;
 				mybot.joinVoiceChannel(channel, function() {
 					mybot.reply(msg, "Joining: " + channel);
 				});
-				retry = true;
+				retries++;
 			}
 		}
   },
