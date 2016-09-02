@@ -81,7 +81,7 @@ var userCommands = {
   },
   "testvoice": function(bot, msg) {
     try {
-			mybot.voiceConnection.stopPlaying();
+      mybot.voiceConnection.stopPlaying();
       mybot.voiceConnection.playFile("./a.mp3");
     } catch (err) {
       mybot.reply(msg, "Put me in a voice channel first.");
@@ -102,13 +102,15 @@ var userCommands = {
 					}
 					mybot.voiceConnection.stopPlaying();
 					try {
-						mybot.voiceConnection.playRawStream(ytdl(url));
+						mybot.voiceConnection.playRawStream(ytdl(url, {filter : 'audioonly'}));
 					} catch (err) {
+      						console.log(err);
 						mybot.reply(msg, "Something went wrong. ")
 					}
 				}
 			});
 		} catch (err) {
+      console.log(err);
       mybot.reply(msg, "Put me in a voice channel first.");
 		}
   },

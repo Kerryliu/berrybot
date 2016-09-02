@@ -5,10 +5,10 @@
   "main": "berrybot.js",
   "dependencies": {
     "cleverbot-node": "^0.2.1",
-    "discord.js": "^5.3.1",
+    "discord.js": "^5.3.2",
     "request": "^2.67.0",
-    "ytdl-core": "^0.7.9",
-	"youtube-node": "^1.3.0"
+    "youtube-node": "^1.3.0",
+    "ytdl-core": "^0.7.9"
   },
   "devDependencies": {},
   "scripts": {
