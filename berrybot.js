@@ -83,8 +83,19 @@ var userCommands = {
     try {
       mybot.voiceConnection.stopPlaying();
       mybot.voiceConnection.playFile("./a.mp3");
-    } catch (err) {
-      mybot.reply(msg, "Put me in a voice channel first.");
+		} catch (err) {
+				mybot.reply(msg, "Something went wrong. ")
+    }
+  },
+  "airhorn": function(bot, msg) {
+    try {
+      mybot.voiceConnection.stopPlaying();
+      mybot.voiceConnection.playFile("./horn.mp3");
+		} catch (err) {
+			var channel = msg.author.voiceChannel;
+			mybot.joinVoiceChannel(channel, function() {
+				mybot.reply(msg, "Joining: " + channel);
+			});
     }
   },
   "singvid": function(bot, msg, args) {
@@ -104,14 +115,15 @@ var userCommands = {
 					try {
 						mybot.voiceConnection.playRawStream(ytdl(url, {filter : 'audioonly'}));
 					} catch (err) {
-      						console.log(err);
 						mybot.reply(msg, "Something went wrong. ")
 					}
 				}
 			});
 		} catch (err) {
-      console.log(err);
-      mybot.reply(msg, "Put me in a voice channel first.");
+			var channel = msg.author.voiceChannel;
+			mybot.joinVoiceChannel(channel, function() {
+				mybot.reply(msg, "Joining: " + channel);
+			});
 		}
   },
   "shutup": function(bot, msg) {
