@@ -10,8 +10,6 @@ var cleverbot = new Cleverbot();
 var mybot = new Discord.Client();
 var youtubeNode = new YoutubeNode();
 
-//Flags and Counters:
-var axeCounter = 0;
 var botID = "121398650738835458";
 
 //Logins:
@@ -88,25 +86,44 @@ var userCommands = {
     }
   },
   "airhorn": function(bot, msg) {
-		var retries = 0;
-		while(retries < 2) {
-			try {
+		try {
+			mybot.voiceConnection.stopPlaying();
+			mybot.voiceConnection.playFile("./horn.mp3");
+		} catch (err) {
+			var channel = msg.author.voiceChannel;
+			mybot.joinVoiceChannel(channel, function() {
+				mybot.reply(msg, "Joining: " + channel);
 				mybot.voiceConnection.stopPlaying();
 				mybot.voiceConnection.playFile("./horn.mp3");
-				break;
-			} catch (err) {
-				var channel = msg.author.voiceChannel;
-				mybot.joinVoiceChannel(channel, function() {
-					mybot.reply(msg, "Joining: " + channel);
-					retries++;
-				});
-			}
+			});
 		}
 	},
 	"singvid": function(bot, msg, args) {
-		var retries = 0;
-		while(retries < 2) {
-			try {
+		try {
+			mybot.voiceConnection.stopPlaying();
+			youtubeNode.search(args, 1, function(error, result) {
+				if (error) {
+					mybot.reply(msg, "Something went wrong. ");
+				} else if (typeof result.items[0] == "undefined") {
+					mybot.reply(msg, "Invalid URL or no search results")
+				} else {
+					var url = "http://www.youtube.com/watch?v=" + result.items[0].id.videoId;
+					if (args.substr(0, 4) != "http") {
+						mybot.reply(msg, url);
+					}
+					mybot.voiceConnection.stopPlaying();
+					try {
+						mybot.voiceConnection.playRawStream(ytdl(url, {filter : 'audioonly'}));
+					} catch (err) {
+						mybot.reply(msg, "Something went wrong. ")
+					}
+				}
+			});
+		} catch (err) {
+			var channel = msg.author.voiceChannel;
+			mybot.joinVoiceChannel(channel, function() {
+				mybot.reply(msg, "Joining: " + channel);
+				//This is terrible but I'm lazy
 				mybot.voiceConnection.stopPlaying();
 				youtubeNode.search(args, 1, function(error, result) {
 					if (error) {
@@ -126,14 +143,7 @@ var userCommands = {
 						}
 					}
 				});
-				break;
-			} catch (err) {
-				var channel = msg.author.voiceChannel;
-				mybot.joinVoiceChannel(channel, function() {
-					mybot.reply(msg, "Joining: " + channel);
-				});
-				retries++;
-			}
+			});
 		}
   },
   "shutup": function(bot, msg) {
@@ -168,31 +178,20 @@ mybot.on("message", function(message) {
     }
   }
   //Automated functions:
-  else {
-    if (firstWord.substr(0, 7) == "(╯°□°）╯") {
-      mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
-    } else if (firstWord == "and") {
-      axeCounter++;
-      if (axeCounter > 1) {
-        mybot.reply(message, "And my axe!");
-        axeCounter = 0;
-      }
-    } else if (firstWord.substr(0, 3) == "ayy") {
-      mybot.reply(message, "lmao");
-    } else if (message.content.includes(botID)) { //Uses unique username id for bot
-      mybot.startTyping(message.channel);
-      Cleverbot.prepare(function() {
-        cleverbot.write(message.content, function(response) {
-          mybot.reply(message, response.message, true);
-          mybot.stopTyping(message.channel);
-        });
-      });
-    } else {
-      //My axe!
-      if (axeCounter > 0) {
-        axeCounter--;
-      }
-    }
+	if (firstWord.substr(0, 7) == "(╯°□°）╯") {
+		mybot.sendMessage(message.channel, "┬──┬◡ﾉ(° -°ﾉ) ");
+	} else if (firstWord == "and") {
+		mybot.reply(message, "And my axe!");
+	} else if (firstWord.substr(0, 3) == "ayy") {
+		mybot.reply(message, "lmao");
+	} else if (message.content.includes(botID)) { //Uses unique username id for bot
+		mybot.startTyping(message.channel);
+		Cleverbot.prepare(function() {
+			cleverbot.write(message.content, function(response) {
+				mybot.reply(message, response.message, true);
+				mybot.stopTyping(message.channel);
+			});
+		});
 	}
 });
 
