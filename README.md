@@ -9,6 +9,7 @@ A chat bot for the Disord app written in Javascript and Node.js using <a href="h
 - /join - Join a channel
 - /comehere - Join the channel of whoever entered the command
 - /singvid (arguments) - Plays the audio portion of the youtube link/query
+- /airhorn - Plays a horn~
 - /shutup - Shuts the bot up if it's talking in a voice channel
 - /goaway - Kicks the bot from its current voice channel
 - /clock - ...Displays a emoji clock
